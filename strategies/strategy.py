@@ -5,7 +5,7 @@ class Strategy:
     pass 
   
     
-  def run(self, capital):
+  def run(self, capital, shouldRun):
     self.capital = capital
     
     
