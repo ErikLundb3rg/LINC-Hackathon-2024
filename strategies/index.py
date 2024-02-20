@@ -1,5 +1,6 @@
 import time
 
+
 def index(capital, shouldRun):
     print("starting index strategy")
     while shouldRun.is_set():
