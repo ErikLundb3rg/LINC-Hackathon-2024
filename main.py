@@ -1,81 +1,42 @@
-from threading import Thread, Event
-import time
+from threading import Event
 import signal
-from strategies.index import index
-from strategies.moving_avg import moving_avg
+from trading import start_trading
 
 COLOR_RESET = "\033[0m"  # Reset to default terminal color
 GREEN_START = "\033[92m"  # Green color start
 BLUE_START = "\033[94m"  # Blue color start
 RED_START = "\033[91m"  # Red color start
 
-async def getTotalCapital():
-    return 10000
-
-
-async def sellAllStocks():
-    pass
-
-
 # Global flags to control shutdown
-shutdown_flag = False
-runThreads = Event()
+shutdown_flag = Event()
+stop_threads = Event()
+
 
 def signal_handler(signum, frame):
-    global shutdown_flag, runThreads
-    if not shutdown_flag:
+    global shutdown_flag, stop_threads
+    if not shutdown_flag.is_set():
         print(
             f"{BLUE_START}\nReceived shutdown signal. Shutting down gracefully after all stocks have been sold..."
             f"\nPress Ctrl+C again to exit immediately.\n{COLOR_RESET}"
         )
-        shutdown_flag = True
+        shutdown_flag.set()
     else:
         print(
             f"{RED_START}\nTold all threads to stop then exited immediately{COLOR_RESET}"
         )
-        runThreads.clear()
+        stop_threads.set()
         exit(0)
 
 
 async def run():
-    global shutdown_flag, runThreads
+    global shutdown_flag, stop_threads
     # Register signal handler for graceful interruption
     signal.signal(signal.SIGINT, signal_handler)
 
-    # init API
+    # Main Program Loop
+    await start_trading(stop_threads, shutdown_flag)
 
-    # multithreaded
-    while not shutdown_flag:
-        totalCapital = await getTotalCapital()
-        print()
-        print("Total capital: ", totalCapital)
-        # strategies is a list of functions which for now are just the run index function
-        strategies = [index, moving_avg]
-        moneyPerStrategy = totalCapital / len(strategies)
-        threads = []
-        runThreads.set()
-        print("Buying stocks with ", moneyPerStrategy, " per strategy")
-        for strategy in strategies:
-            t = Thread(target=strategy, args=(moneyPerStrategy, runThreads))
-            threads.append(t)
-
-        for thread in threads:
-            thread.start()
-
-        # Let threads run for a while
-        time.sleep(10)
-
-        # Stop them
-        runThreads.clear()
-        for thread in threads:
-            thread.join()
-
-        print("Selling all stocks")
-        await sellAllStocks()
-
-        if shutdown_flag:
-            print(f"{GREEN_START}\nExited gracefully after all stocks were sold{COLOR_RESET}")
-            break
+    print(f"{GREEN_START}Exited gracefully after all stocks were sold{COLOR_RESET}")
 
 
 def main():
