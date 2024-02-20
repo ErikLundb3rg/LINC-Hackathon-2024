@@ -1,5 +1,6 @@
 from threading import Event
 import signal
+import asyncio
 from trading import start_trading
 
 COLOR_RESET = "\033[0m"  # Reset to default terminal color
@@ -28,22 +29,15 @@ def signal_handler(signum, frame):
         exit(0)
 
 
-async def run():
+def main():
     global shutdown_flag, stop_threads
     # Register signal handler for graceful interruption
     signal.signal(signal.SIGINT, signal_handler)
 
     # Main Program Loop
-    await start_trading(stop_threads, shutdown_flag)
+    asyncio.run(start_trading(stop_threads, shutdown_flag))
 
     print(f"{GREEN_START}Exited gracefully after all stocks were sold{COLOR_RESET}")
-
-
-def main():
-    # Run the async function
-    import asyncio
-
-    asyncio.run(run())
 
 
 if __name__ == "__main__":
