@@ -1,7 +1,22 @@
 from threading import Event
 import signal
-import asyncio
+from api_wrapper import api_wrapper
 from trading import start_trading
+import os
+
+
+def delete_all_files_in_directory(directory):
+    for filename in os.listdir(directory):
+        file_path = os.path.join(directory, filename)
+        try:
+            if os.path.isfile(file_path) or os.path.islink(file_path):
+                os.remove(file_path)
+                print(f"Deleted {file_path}")
+            else:
+                print(f"Skipped {file_path}, not a file or link")
+        except Exception as e:
+            print(f"Failed to delete {file_path}. Reason: {e}")
+
 
 COLOR_RESET = "\033[0m"  # Reset to default terminal color
 GREEN_START = "\033[92m"  # Green color start
@@ -33,9 +48,10 @@ def main():
     global shutdown_flag, stop_threads
     # Register signal handler for graceful interruption
     signal.signal(signal.SIGINT, signal_handler)
+    api = api_wrapper()
+    delete_all_files_in_directory("./logs")
 
-    # Main Program Loop
-    asyncio.run(start_trading(stop_threads, shutdown_flag))
+    start_trading(stop_threads, shutdown_flag, api)
 
     print(f"{GREEN_START}Exited gracefully after all stocks were sold{COLOR_RESET}")
 

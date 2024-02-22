@@ -1,28 +1,20 @@
-from threading import Thread
+from threading import Event, Thread
 import time
+import hackathon_linc as linc
+from api_wrapper import api_wrapper
 from strategies.index import index
 from strategies.moving_avg import moving_avg
 
 
-async def get_total_capital():
-    total_capital = 10000
-    print("Total capital: ", total_capital)
-    return total_capital
-
-
-async def sell_all_stocks():
-    print("Selling all stocks")
-
-
-async def start_trading(stop_threads, shutdown_flag):
+def start_trading(stop_threads: Event, shutdown_flag: Event, api: api_wrapper):
     while not shutdown_flag.is_set():
-        total_capital = await get_total_capital()
+        total_capital = api.get_total_capital()
         strategies = [index, moving_avg]
         money_per_strategy = total_capital / len(strategies)
 
         print("Buying stocks with ", money_per_strategy, " per strategy")
         threads = [
-            Thread(target=strategy, args=(money_per_strategy, stop_threads))
+            Thread(target=strategy, args=(money_per_strategy, stop_threads, api))
             for strategy in strategies
         ]
 
@@ -39,5 +31,5 @@ async def start_trading(stop_threads, shutdown_flag):
             thread.join()
         stop_threads.clear()
 
-        await sell_all_stocks()
+        api.sell_all_stocks()
         print()
