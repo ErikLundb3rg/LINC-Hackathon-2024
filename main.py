@@ -3,6 +3,7 @@ import signal
 from api_wrapper import api_wrapper
 from trading import start_trading
 import os
+import hackathon_linc as linc
 
 
 def delete_all_files_in_directory(directory):
@@ -49,7 +50,9 @@ def main():
     # Register signal handler for graceful interruption
     signal.signal(signal.SIGINT, signal_handler)
     api = api_wrapper()
+    print(linc.get_current_price())
     delete_all_files_in_directory("./logs")
+
 
     start_trading(stop_threads, shutdown_flag, api)
 

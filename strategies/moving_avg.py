@@ -12,10 +12,12 @@ def moving_avg(capital: float, should_stop: Event, api: api_wrapper):
         "./logs/moving_avg_logs.txt", "a"
     ) as logs:  # Open the log file in append mode
         logs.write("starting moving avg strategy\n")
+        intervals = 0
         while not should_stop.is_set():
-            [amounts, capital_left] = buy_moving_avg(capital, logs, api)
-            time.sleep(10)
-            if amounts is not None:
+            if intervals % 60 == 0:
+                [amounts, capital_left] = buy_moving_avg(capital, logs, api)
+            time.sleep(1)
+            if amounts is not None and intervals % 60 == 0:
                 capital = sell_moving_avg(capital_left, logs, api, amounts)
         result = capital - start_capital
         logs.write(f"Net result: {result}\n\n")
