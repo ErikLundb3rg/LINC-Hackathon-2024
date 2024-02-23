@@ -119,7 +119,7 @@ def lstm_iteration(capital: float, logs: TextIOWrapper, api: api_wrapper, model,
     capital -= buy_dict["amount"] * buy_dict["price"]
   else:
     sell_dict = api.sell(TICKER, nrStocks, logs)
-    capital -= sell_dict["amount"] * sell_dict["price"]
+    capital += sell_dict["amount"] * sell_dict["price"]
 
  
   return capital, nrStocks
