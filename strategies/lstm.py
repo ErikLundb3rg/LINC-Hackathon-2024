@@ -92,7 +92,7 @@ def lstm(capital: float, should_stop: Event, api: api_wrapper):
 
 
 def lstm_iteration(capital: float, logs: TextIOWrapper, api: api_wrapper, model, nrStocks):
-  # api.sell(TICKER, nrStocks, logs)
+  api.sell(TICKER, nrStocks, logs)
   time.sleep(5)
   amzn_values = get_values(api)
   
@@ -111,12 +111,12 @@ def lstm_iteration(capital: float, logs: TextIOWrapper, api: api_wrapper, model,
   prediction = trainingScaler.inverse_transform(prediction)
   alpha = prediction[-1]- prediction[-2]
   
-  nrStocks = max(capital // amzn_values[-1] -5, 0)
+  nrStocks = max(capital // amzn_values[-1][0] -5, 0)
   
   print("Alpha", alpha) 
   if alpha[0] > 0: 
     print("******************************** BUYINGN *************")
     print("Amount of stocks", nrStocks)
-    # api.buy(TICKER, nrStocks, logs)
+    api.buy(TICKER, nrStocks, logs)
  
   return capital, nrStocks
