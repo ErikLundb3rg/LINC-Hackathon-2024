@@ -50,7 +50,6 @@ def main():
     # Register signal handler for graceful interruption
     signal.signal(signal.SIGINT, signal_handler)
     api = api_wrapper()
-    print(linc.get_current_price())
     delete_all_files_in_directory("./logs")
 
     start_trading(stop_threads, shutdown_flag, api)

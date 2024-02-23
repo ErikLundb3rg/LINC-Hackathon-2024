@@ -23,7 +23,7 @@ class api_wrapper:
         self.all_current_prices = cashed_value()
         self.hundred_days_back = cashed_value()
         self.start_prices: Union[None, dict[str, float]] = None
-        linc.init("d1d79c3c-ac03-40bd-807e-77ece49e12db")
+        linc.init("b08f9b7c-4955-4be2-8404-507f7a14e33d")
 
     # Use TypeVar T to indicate the return type of update_func and the return type of _update_cached_value.
     def _update_cached_value(

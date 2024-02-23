@@ -13,8 +13,9 @@ def moving_avg(capital: float, should_stop: Event, api: api_wrapper):
     ) as logs:  # Open the log file in append mode
         logs.write("starting moving avg strategy\n")
         intervals = 0
+        amounts = None
         while not should_stop.is_set():
-            if intervals % 60 == 0:
+            if intervals % 60 == 1:
                 [amounts, capital_left] = buy_moving_avg(capital, logs, api)
             time.sleep(1)
             if amounts is not None and intervals % 60 == 0:
@@ -29,6 +30,7 @@ def buy_moving_avg(capital: float, logs: TextIOWrapper, api: api_wrapper):
     dfg = df.groupby("symbol")
     for key, value in dfg:
         if len(value) < 300:
+            logs.write(f"Stock {key} does not have enough data\n")
             return [None, capital]
 
     df["time"] = pd.to_datetime(df["time"])
