@@ -92,8 +92,6 @@ def lstm(capital: float, should_stop: Event, api: api_wrapper):
 
 
 def lstm_iteration(capital: float, logs: TextIOWrapper, api: api_wrapper, model, nrStocks):
-  api.sell(TICKER, nrStocks, logs)
-  time.sleep(5)
   amzn_values = get_values(api)
   
   testing_input_amzn = amzn_values
@@ -117,6 +115,11 @@ def lstm_iteration(capital: float, logs: TextIOWrapper, api: api_wrapper, model,
   if alpha[0] > 0: 
     print("******************************** BUYINGN *************")
     print("Amount of stocks", nrStocks)
-    api.buy(TICKER, nrStocks, logs)
+    buy_dict = api.buy(TICKER, nrStocks, logs)
+    capital -= buy_dict["amount"] * buy_dict["price"]
+  else:
+    sell_dict = api.sell(TICKER, nrStocks, logs)
+    capital -= sell_dict["amount"] * sell_dict["price"]
+
  
   return capital, nrStocks
