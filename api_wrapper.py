@@ -3,6 +3,7 @@ import time
 import hackathon_linc as linc
 import threading
 from typing import TypeVar, Callable, Union
+import pandas as pd
 
 # Define a TypeVar T that can be any type, representing the return type of update_func.
 T = TypeVar("T")
@@ -57,7 +58,7 @@ class api_wrapper:
     def get_300_days_back(self):
         return self._update_cached_value(
             self.hundred_days_back,
-            lambda: linc.get_historical_data(300),
+            lambda: pd.DataFrame(linc.get_historical_data(300)),
             5,  # Cache duration in seconds
         )
 

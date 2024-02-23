@@ -19,6 +19,9 @@ def moving_avg(capital: float, should_stop: Event, api: api_wrapper):
 
 
 def moving_avg_iteration(capital: float, logs: TextIOWrapper, api: api_wrapper):
+    history = api.get_300_days_back()
+    for ticker in history["symbol"]:
+        pass
     time.sleep(2)
     logs.write("Ran moving avg iteration\n")
     logs.flush()
