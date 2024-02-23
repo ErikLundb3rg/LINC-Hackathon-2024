@@ -63,11 +63,7 @@ class api_wrapper:
         )
 
     def get_all_current_prices(self, type) -> dict[str, float]:
-        prices = self._update_cached_value(
-            self.all_current_prices,
-            lambda: {price["symbol"]: price["mid"] for price in linc.get_current_price()["data"] if price["type"] == type},
-            1,  # Cache duration in seconds
-        )
+        prices = {price["symbol"]: price["mid"] for price in linc.get_current_price()["data"] if price["type"] == type}
         if self.start_prices is None and type == "Stock":
             self.start_prices = prices
         return prices
