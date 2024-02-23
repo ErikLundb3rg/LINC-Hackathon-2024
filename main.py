@@ -53,7 +53,6 @@ def main():
     print(linc.get_current_price())
     delete_all_files_in_directory("./logs")
 
-
     start_trading(stop_threads, shutdown_flag, api)
 
     print(f"{GREEN_START}Exited gracefully after all stocks were sold{COLOR_RESET}")

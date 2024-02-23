@@ -49,7 +49,7 @@ def buy_moving_avg(capital: float, logs: TextIOWrapper, api: api_wrapper):
     relevant_stocks = relevant_stocks[:5]
     relevant_stocks = [stock[0] for stock in relevant_stocks]
 
-    prices = api.get_all_current_prices()
+    prices = api.get_all_current_prices("Stock")
     amounts = {}
     for stock in relevant_stocks:
         amount = capital // prices[stock]

@@ -20,7 +20,7 @@ def index(capital: float, should_stop: Event, api: api_wrapper):
 
 
 def buy_index(capital: float, logs: TextIOWrapper, api: api_wrapper):
-    prices = api.get_all_current_prices()
+    prices = api.get_all_current_prices("Stock")
     start_prices = api.get_all_start_prices()
     # Compare the difference between the current prices and the start prices and return a dict form symbol to current price with the prices that have increased the most
     price_diffs = {
