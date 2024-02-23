@@ -2,14 +2,15 @@ from threading import Event, Thread
 import time
 import hackathon_linc as linc
 from api_wrapper import api_wrapper
-from strategies.index import index
-from strategies.moving_avg import moving_avg
+from strategies.lstm import lstm 
+
 
 
 def start_trading(stop_threads: Event, shutdown_flag: Event, api: api_wrapper):
+    api.sell_all_stocks()
     while not shutdown_flag.is_set():
         total_capital = api.get_total_capital()
-        strategies = [index, moving_avg]
+        strategies = [lstm]
         money_per_strategy = total_capital / len(strategies)
 
         print("Buying stocks with ", money_per_strategy, " per strategy")
@@ -23,7 +24,7 @@ def start_trading(stop_threads: Event, shutdown_flag: Event, api: api_wrapper):
             thread.start()
 
         # Let threads run for a while
-        time.sleep(10)
+        time.sleep(40)
 
         # Stop threads
         stop_threads.set()

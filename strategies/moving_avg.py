@@ -91,6 +91,7 @@ def get_ma_values_as_dict(df: pd.DataFrame) -> dict:
 
     return ma_values_dict
 
+
 def sell_moving_avg(
     capital: float, logs: TextIOWrapper, api: api_wrapper, amounts: dict[str, int]
 ):
