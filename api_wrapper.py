@@ -21,7 +21,7 @@ class api_wrapper:
         self.tickers = cashed_value()
         self.all_current_prices = cashed_value()
         self.hundred_days_back = cashed_value()
-        self.start_prices: Union[list[dict], None] = None
+        self.start_prices: Union[None, dict[str, float]] = None
         linc.init("d1d79c3c-ac03-40bd-807e-77ece49e12db")
 
     # Use TypeVar T to indicate the return type of update_func and the return type of _update_cached_value.
@@ -61,10 +61,10 @@ class api_wrapper:
             5,  # Cache duration in seconds
         )
 
-    def get_all_current_prices(self) -> list[dict]:
+    def get_all_current_prices(self) -> dict[str, float]:
         prices = self._update_cached_value(
             self.all_current_prices,
-            lambda: linc.get_current_price()["data"],
+            lambda: {price["symbol"]: price["bidMedian"] for price in linc.get_current_price()["data"]},
             1,  # Cache duration in seconds
         )
         if self.start_prices is None:
