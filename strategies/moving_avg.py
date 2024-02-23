@@ -15,7 +15,7 @@ def moving_avg(capital: float, should_stop: Event, api: api_wrapper):
             capital = moving_avg_iteration(capital, logs, api)
             logs.flush()
         result = capital - start_capital
-        logs.write(f"Moving avg strategy ended with net: {result}\n\n")
+        logs.write(f"Net result: {result}\n\n")
 
 
 def moving_avg_iteration(capital: float, logs: TextIOWrapper, api: api_wrapper):
