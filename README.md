@@ -21,8 +21,7 @@ The strategy utilizes multithreaded to distribute capital between different subs
 3. Pivoting. As we got statistics of how each strategy regularly performed, we could see what was working or not. Using this, we could test out new strategies, and allocate a higher relative share of capital if they tended to perform better over time.
 <br/>
 4. Risk aversion. While it is always fun with risk, this strategy is risk averse in the sense that it uses multiple independent models to trade with. Also in line with 3. if some model started to go ballistic we could simply remove it.
-
-
+<br/>
 **Team members + Github:**
 * [Jonatan Kruse](https://github.com/jonatan-kruse)
 * [Marcus Engdahl](https://github.com/MarcusEngdahl)
