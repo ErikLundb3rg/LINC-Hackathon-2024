@@ -23,8 +23,11 @@ The strategy utilizes multithreaded to distribute capital between different subs
 4. Risk aversion. While it is always fun with risk, this strategy is risk averse in the sense that it uses multiple independent models to trade with. Also in line with 3. if some model started to go ballistic we could simply remove it.
 
 
-Team members Github: 
+**Team members Github:**
 [Jonatan Kruse](https://github.com/jonatan-kruse)
+<br/>
 [Marcus Engdahl](https://github.com/MarcusEngdahl)
+<br/>
 Anna Grimlund 
+<br/>
 [Erik Lundberg](https://github.com/ErikLundb3rg)
