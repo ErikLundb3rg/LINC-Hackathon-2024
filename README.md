@@ -27,5 +27,5 @@ The strategy utilizes multithreaded to distribute capital between different subs
 **Team members + Github:**
 * [Jonatan Kruse](https://github.com/jonatan-kruse)
 * [Marcus Engdahl](https://github.com/MarcusEngdahl)
-* Anna Grimlund 
+* [Anna Grimlund](https://github.com/AnnaGR)
 * [Erik Lundberg](https://github.com/ErikLundb3rg)
